@@ -21,19 +21,19 @@ public class BarcoService {
     private BarcoRepository barcoRepository;
 
     public Barco create(Barco barco){
-        barcoRepository.save(barco);
+        barco=barcoRepository.save(barco);
 
         return barco;
     }
 
-    public Barco get(long id) {
+    public Optional <Barco> get(long id) {
         LOGGER.info("Consultando el barco con el id " + id);
         Optional<Barco> resultado = barcoRepository.findById(id);
 
-        return resultado.orElse(null);
+        return resultado;
     }
 
-    public List<Barco> get() {
+    public List<Barco> getAll() {
         
         return barcoRepository.findAll();
     }
@@ -44,8 +44,10 @@ public class BarcoService {
     }
 
     public void delete (long id){
+        LOGGER.info("Borrando un barco");
 
         barcoRepository.deleteById(id);
+
     }
 
 }

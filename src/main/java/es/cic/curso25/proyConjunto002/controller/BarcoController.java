@@ -1,6 +1,7 @@
 package es.cic.curso25.proyConjunto002.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,19 +30,21 @@ public class BarcoController {
 
     @GetMapping
     public List<Barco> get() {
-        return barcoService.get();
+        return barcoService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Barco get(@PathVariable long id){
+    public Optional <Barco> get(@PathVariable long id){
+        //Comentario también en service
         LOGGER.info("Consultando el barco con id: " + id);
-        Barco barco = barcoService.get(id);
+        Optional <Barco> barco1 = barcoService.get(id);
 
-        return barco;
+        return barco1;
     }
 
     @PostMapping
     public Barco create(@RequestBody Barco barco) {
+            LOGGER.info("Creando el barco " + barco);
         Barco barcoNuevo = barcoService.create(barco);
 
         return barcoNuevo;
