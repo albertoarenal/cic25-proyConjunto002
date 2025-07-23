@@ -1,10 +1,12 @@
 package es.cic.curso25.proyConjunto002.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 
@@ -29,6 +31,10 @@ public class Barco {
     @Column(name = "capacidad")
     private int capacidad;
 
+    //Relación One to One con entidad Capitán
+    @OneToOne(mappedBy = "barco", cascade = CascadeType.PERSIST)
+    private Capitan capitan;
+
     //Constructores
     public Barco() {
 
@@ -48,40 +54,71 @@ public class Barco {
     public Long getId() {
         return id;
     }
+
+
     public void setId(Long id) {
         this.id = id;
     }
+
+
     public String getTipoBarco() {
         return tipoBarco;
     }
+
+
     public void setTipoBarco(String tipoBarco) {
         this.tipoBarco = tipoBarco;
     }
+
+
     public int getAnio() {
         return anio;
     }
+
+
     public void setAnio(int anio) {
         this.anio = anio;
     }
+
+
     public String getMaterial() {
         return material;
     }
+
+
     public void setMaterial(String material) {
         this.material = material;
     }
+
+
     public int getCapacidad() {
         return capacidad;
     }
+
+
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
 
+
+    public Capitan getCapitan() {
+        return capitan;
+    }
+
+
+    public void setCapitan(Capitan capitan) {
+        this.capitan = capitan;
+    }
+    
     //Método toString
     @Override
     public String toString() {
         return "Barco [id=" + id + ", tipoBarco=" + tipoBarco + ", anio=" + anio + ", material=" + material
                 + ", capacidad=" + capacidad + "]";
     }
+    
+
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -108,6 +145,5 @@ public class Barco {
             return false;
         return true;
     }
-
 
 }
