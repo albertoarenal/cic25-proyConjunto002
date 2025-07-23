@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso25.proyConjunto002.model.Barco;
 import es.cic.curso25.proyConjunto002.repository.BarcoRepository;
 
 @Service
+@Transactional
 public class BarcoService {
 
     //Logger
@@ -21,11 +23,12 @@ public class BarcoService {
     private BarcoRepository barcoRepository;
 
     public Barco create(Barco barco){
-        barco=barcoRepository.save(barco);
+        barco = barcoRepository.save(barco);
 
         return barco;
     }
 
+    @Transactional(readOnly = true)
     public Optional <Barco> get(long id) {
         LOGGER.info("Consultando el barco con el id " + id);
         Optional<Barco> resultado = barcoRepository.findById(id);
@@ -33,6 +36,7 @@ public class BarcoService {
         return resultado;
     }
 
+    @Transactional(readOnly = true)
     public List<Barco> getAll() {
         
         return barcoRepository.findAll();

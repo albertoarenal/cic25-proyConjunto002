@@ -44,7 +44,7 @@ public class BarcoController {
 
     @PostMapping
     public Barco create(@RequestBody Barco barco) {
-            LOGGER.info("Creando el barco " + barco);
+        LOGGER.info("Creando el barco " + barco);
         Barco barcoNuevo = barcoService.create(barco);
 
         return barcoNuevo;
