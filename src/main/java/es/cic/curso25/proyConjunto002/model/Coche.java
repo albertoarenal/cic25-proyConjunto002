@@ -18,12 +18,15 @@ public class Coche {
 
     private String marca;
     private String matricula;
-    private int anios;
+    private int anio;
 
-    public Coche(String marca, String matricula, int anios) {
-        this.marca = marca;
-        this.matricula = matricula;
-        this.anios = anios;
+ 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
     public Long getId() {
         return id;
@@ -49,19 +52,13 @@ public class Coche {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
-    public int getAnios() {
-        return anios;
+    public int getAnio() {
+        return anio;
     }
-    public void setAnios(int anios) {
-        this.anios = anios;
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -78,11 +75,9 @@ public class Coche {
             return false;
         return true;
     }
-
     @Override
     public String toString() {
-        return "Coche [id=" + id + ", marca=" + marca + ", matricula=" + matricula + ", anios=" + anios + "]";
+        return "Coche [id=" + id + ", marca=" + marca + ", matricula=" + matricula + ", anio=" + anio + "]";
     }
-
     
 }

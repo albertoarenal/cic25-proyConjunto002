@@ -20,8 +20,6 @@ public class CocheService {
 
     public List<Coche> getAll() {
 
-        
-
         List<Coche> coches = cocheRepository.findAll();
 
         return coches;
@@ -29,9 +27,9 @@ public class CocheService {
 
     public Optional<Coche> get(Long id) {
 
-       Optional<Coche> coche = cocheRepository.findById(id);
+        Optional<Coche> coche = cocheRepository.findById(id);
 
-       return coche;
+        return coche;
     }
 
     public Coche create(Coche coche) {
@@ -39,14 +37,21 @@ public class CocheService {
         cocheRepository.save(coche);
 
         return coche;
-       
+
     }
 
-    public Long delete( Long id) {
+    public Long delete(Long id) {
 
-       cocheRepository.deleteById(id);
+        cocheRepository.deleteById(id);
 
-       return id;
+        return id;
+    }
+
+    public Coche update(Coche coche) {
+
+       coche = cocheRepository.save(coche);
+
+        return coche;
     }
 
 }

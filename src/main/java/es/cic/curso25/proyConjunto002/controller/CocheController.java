@@ -1,6 +1,7 @@
 package es.cic.curso25.proyConjunto002.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,35 +27,45 @@ public class CocheController {
     @Autowired
     private CocheService cocheService;
 
+    @GetMapping("")
+    public List<Coche> getAll() {
 
-     @GetMapping()
-     public List<Coche> getAll(){
+        List<Coche> coches = cocheService.getAll();
 
-       List<Coche> coches= cocheService.getAll();
+        return coches;
+    }
 
-       return coches;
-     }
+    @GetMapping("/{id}")
+    public Optional<Coche> get(@PathVariable Long id) {
 
+        Optional<Coche> coche = cocheService.get(id);
 
-     @GetMapping("/{id}")
-     public Long get(@PathVariable Long id){
+        return coche;
+    }
 
+    @PostMapping
+    public Coche create(@RequestBody Coche coche) {
 
-        throw new UnsupportedOperationException("Metodo sin implementar");
-     }
+        cocheService.create(coche);
 
-     @PostMapping()
-     public Coche create(@RequestBody Coche coche){
-      
-        
-        throw new UnsupportedOperationException("Metodo sin implementar");
-     }
+        return coche;
+    }
 
-     @DeleteMapping("/{id}")
-     public Long delete(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable Long id) {
 
-         throw new UnsupportedOperationException("Metodo sin implementar");
-     }
+        cocheService.delete(id);
 
+        return id;
+    }
+
+    @PutMapping()
+    public Coche update(@RequestBody Coche coche){
+
+       coche = cocheService.update(coche);
+
+       return coche;
+ 
+    }
 
 }
