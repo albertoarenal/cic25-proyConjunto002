@@ -1,9 +1,13 @@
 package es.cic.curso25.proyConjunto002.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Version;
 
 @Entity
 public class Baca {
@@ -14,7 +18,13 @@ public class Baca {
     private double ancho;
     private double largo;
     private int peso;
+
+    @Version
+    private Long version;
     
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch =  FetchType.EAGER)
+    private Coche coche;
+
     public Long getId() {
         return id;
     }

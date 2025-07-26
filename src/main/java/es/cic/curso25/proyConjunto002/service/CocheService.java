@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import es.cic.curso25.proyConjunto002.model.Coche;
 import es.cic.curso25.proyConjunto002.repository.CocheRepository;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class CocheService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CocheService.class);
@@ -19,7 +21,7 @@ public class CocheService {
     private CocheRepository cocheRepository;
 
     public List<Coche> getAll() {
-
+        
         List<Coche> coches = cocheRepository.findAll();
 
         return coches;

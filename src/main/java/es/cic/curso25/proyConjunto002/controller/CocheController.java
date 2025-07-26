@@ -30,6 +30,8 @@ public class CocheController {
     @GetMapping("")
     public List<Coche> getAll() {
 
+        LOGGER.info("Endpoint GET /api/vehiculo/coche con todos los coches");
+
         List<Coche> coches = cocheService.getAll();
 
         return coches;
@@ -37,6 +39,8 @@ public class CocheController {
 
     @GetMapping("/{id}")
     public Optional<Coche> get(@PathVariable Long id) {
+
+        LOGGER.info("Endpoint GET /api/vehiculo/coche/{id} que devuelve el coche buscado por id");
 
         Optional<Coche> coche = cocheService.get(id);
 
@@ -46,6 +50,7 @@ public class CocheController {
     @PostMapping
     public Coche create(@RequestBody Coche coche) {
 
+        LOGGER.info("Endpoint POST /api/vehiculo/coche para guardar un coche enviado en el body");
         cocheService.create(coche);
 
         return coche;
@@ -54,18 +59,21 @@ public class CocheController {
     @DeleteMapping("/{id}")
     public Long delete(@PathVariable Long id) {
 
+        LOGGER.info("Endpoint DELETE /api/vehiculo/coche/{id} para eliminar el coche buscado por id");
+
         cocheService.delete(id);
 
         return id;
     }
 
     @PutMapping()
-    public Coche update(@RequestBody Coche coche){
+    public Coche update(@RequestBody Coche coche) {
 
-       coche = cocheService.update(coche);
+        LOGGER.info("Actualizando el coche");
+        coche = cocheService.update(coche);
 
-       return coche;
- 
+        return coche;
+
     }
 
 }
