@@ -21,7 +21,9 @@ public class CocheService {
     private CocheRepository cocheRepository;
 
     public List<Coche> getAll() {
-        
+
+        LOGGER.info("Devolviendo una lista con todos los coches");
+
         List<Coche> coches = cocheRepository.findAll();
 
         return coches;
@@ -29,6 +31,7 @@ public class CocheService {
 
     public Optional<Coche> get(Long id) {
 
+        LOGGER.info(String.format("Devolviendo el coche con id %s", id));
         Optional<Coche> coche = cocheRepository.findById(id);
 
         return coche;
@@ -36,6 +39,7 @@ public class CocheService {
 
     public Coche create(Coche coche) {
 
+        LOGGER.info(String.format("Creando el coche con id %s", coche.getId()));
         cocheRepository.save(coche);
 
         return coche;
@@ -44,6 +48,8 @@ public class CocheService {
 
     public Long delete(Long id) {
 
+        LOGGER.info(String.format("Eliminando el coche con id %s", id));
+
         cocheRepository.deleteById(id);
 
         return id;
@@ -51,7 +57,8 @@ public class CocheService {
 
     public Coche update(Coche coche) {
 
-       coche = cocheRepository.save(coche);
+        LOGGER.info(String.format("Actualizando el coche con id %s", coche.getId()));
+        coche = cocheRepository.save(coche);
 
         return coche;
     }

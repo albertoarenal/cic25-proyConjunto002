@@ -2,6 +2,7 @@ package es.cic.curso25.proyConjunto002.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +23,7 @@ public class Coche {
     private String matricula;
     private int anio;
 
-    @OneToOne(mappedBy = "coche", cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch =  FetchType.EAGER)
     private Baca baca;
 
  

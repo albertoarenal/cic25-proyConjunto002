@@ -22,7 +22,7 @@ public class Baca {
     @Version
     private Long version;
     
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch =  FetchType.EAGER)
+    @OneToOne(mappedBy = "baca", cascade = CascadeType.REMOVE)
     private Coche coche;
 
     public Long getId() {

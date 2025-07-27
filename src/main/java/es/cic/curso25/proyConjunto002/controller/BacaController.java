@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +40,29 @@ public class BacaController {
 
     @GetMapping
     public List<Baca> get() {
-        LOGGER.info("Leo todas las vacas");
+        LOGGER.info("Leo la lista completa con las bacas");
 
         return bacaService.get();
+    }
+
+    @PostMapping
+    public Baca create(@RequestBody Baca baca){
+
+        if (baca.getId()!=null){
+            throw new ModificacionSecurityException("El id que has pasado no es válido");
+        }
+
+        LOGGER.info("Creo una baca");
+
+        return baca;
     }
 
     @PutMapping
     public void update(@RequestBody Baca baca) {
 
+        if (baca.getId() == null ){
+            throw new CreacionSecurityException("No se puede crear una baca sin un id");
+        }
         LOGGER.info("Actualizo una baca");
 
         bacaService.update(baca);
