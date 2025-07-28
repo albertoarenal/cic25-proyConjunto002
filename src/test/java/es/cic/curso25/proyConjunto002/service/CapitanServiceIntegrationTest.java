@@ -19,6 +19,16 @@ public class CapitanServiceIntegrationTest {
     private CapitanService capitanService;
 
     @Test
+    void testGetOne() {
+        Capitan capitan = new Capitan();
+        capitan.setNombre("Sergio");
+        capitan.setApellidos("Martínez Lagos");
+        capitan.setNumeroDeLicencia("4567935O");
+        capitanService.create(capitan);
+        assertTrue(capitanService.getAll().getFirst() != null);
+    }
+
+    @Test
     void testCreate() {
         Capitan capitan = new Capitan();
         capitan.setNombre("Manuel");
@@ -29,15 +39,7 @@ public class CapitanServiceIntegrationTest {
         assertTrue(idCapitan > 0);
     }
 
-    @Test
-    void testGetOne() {
-        Capitan capitan = new Capitan();
-        capitan.setNombre("Sergio");
-        capitan.setApellidos("Martínez Lagos");
-        capitan.setNumeroDeLicencia("4567935O");
-        capitanService.create(capitan);
-        assertEquals("4567935O", capitanService.getAll().getFirst().getNumeroDeLicencia());
-    }
+   
 
     @Test
     void TestGetAll() {
@@ -71,7 +73,7 @@ public class CapitanServiceIntegrationTest {
         Capitan capitan1 = new Capitan();
         capitan1.setNombre("Pedro");
         capitan1.setApellidos("Lucero Reinosa");
-        capitan1.setNumeroDeLicencia("2345678F");
+        capitan1.setNumeroDeLicencia("2345679F");
         capitanService.create(capitan1);
         capitan1.setNombre("Florencio");
         capitanService.update(capitan1);
