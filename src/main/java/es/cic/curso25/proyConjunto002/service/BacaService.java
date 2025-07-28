@@ -33,7 +33,7 @@ public class BacaService {
     }
 
     @Transactional(readOnly = true)
-    public List<Baca> get() {
+    public List<Baca> getAll() {
 
         LOGGER.info(String.format("Leo todas las bacas"));
 

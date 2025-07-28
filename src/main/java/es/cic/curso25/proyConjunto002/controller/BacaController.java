@@ -42,13 +42,13 @@ public class BacaController {
     public List<Baca> get() {
         LOGGER.info("Leo la lista completa con las bacas");
 
-        return bacaService.get();
+        return bacaService.getAll();
     }
 
     @PostMapping
-    public Baca create(@RequestBody Baca baca){
+    public Baca create(@RequestBody Baca baca) {
 
-        if (baca.getId()!=null){
+        if (baca.getId() != null) {
             throw new ModificacionSecurityException("El id que has pasado no es válido");
         }
 
@@ -62,7 +62,7 @@ public class BacaController {
     @PutMapping
     public void update(@RequestBody Baca baca) {
 
-        if (baca.getId() == null ){
+        if (baca.getId() == null) {
             throw new CreacionSecurityException("No se puede crear una baca sin un id");
         }
         LOGGER.info("Actualizo una baca");

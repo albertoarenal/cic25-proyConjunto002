@@ -132,5 +132,54 @@ public class BacaControllerIntegrationTest {
                 });
     }
 
-   
+    @Test
+    void testUpdate() throws Exception {
+
+        Baca baca = new Baca();
+        baca.setAncho(1.5);
+        baca.setPeso(30);
+        baca.setLargo(2.5);
+
+        String bacaJson = objectMapper.writeValueAsString(baca);
+
+        MvcResult mvcResult = mockMvc.perform(post("/api/vehiculo/coche/baca")
+                .contentType("application/json")
+                .content(bacaJson))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Baca bacaGuardada = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Baca.class);
+
+        Long id = bacaGuardada.getId();
+
+        baca.setId(id);
+        baca.setVersion(bacaGuardada.getVersion());
+        baca.setPeso(42);
+        baca.setLargo(3.4);
+
+        bacaJson = objectMapper.writeValueAsString(baca);
+
+        mockMvc.perform(put("/api/vehiculo/coche/baca")
+                .contentType("application/json")
+                .content(bacaJson))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void testUpdateException() throws Exception {
+
+        Baca baca = new Baca();
+        baca.setAncho(1.5);
+        baca.setPeso(30);
+        baca.setLargo(2.5);
+
+        String bacaJson = objectMapper.writeValueAsString(baca);
+
+        mockMvc.perform(put("/api/vehiculo/coche/baca")
+                .contentType("application/json")
+                .content(bacaJson))
+                .andExpect(status().isBadRequest());
+
+    }
 }

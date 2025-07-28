@@ -1,5 +1,6 @@
 package es.cic.curso25.proyConjunto002.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -96,4 +97,23 @@ public class CocheServiceTest {
         assertTrue(coches.size() > 1);
 
     }
+    @Test
+void testUpdateCoche() {
+   
+    Coche coche = new Coche();
+    coche.setMarca("Opel");
+    coche.setMatricula("2234HBH");
+    coche.setAnio(2022);
+
+    Coche cocheGuardado = cocheService.create(coche);
+
+    cocheGuardado.setMarca("Renault");
+    cocheGuardado.setAnio(2023);
+    
+    Coche cocheActualizado = cocheService.update(cocheGuardado);
+    assertEquals("Renault", cocheActualizado.getMarca());
+    assertEquals(2023, cocheActualizado.getAnio());
+    assertEquals(cocheGuardado.getId(), cocheActualizado.getId());
+}
+
 }
