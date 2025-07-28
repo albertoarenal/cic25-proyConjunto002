@@ -7,9 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import es.cic.curso25.proyConjunto002.model.Coche;
 import es.cic.curso25.proyConjunto002.repository.CocheRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -20,6 +21,7 @@ public class CocheService {
     @Autowired
     private CocheRepository cocheRepository;
 
+    @Transactional(readOnly = true)
     public List<Coche> getAll() {
 
         LOGGER.info("Devolviendo una lista con todos los coches");
@@ -29,6 +31,8 @@ public class CocheService {
         return coches;
     }
 
+    
+    @Transactional(readOnly = true)
     public Optional<Coche> get(Long id) {
 
         LOGGER.info(String.format("Devolviendo el coche con id %s", id));

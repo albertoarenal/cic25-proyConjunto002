@@ -18,9 +18,6 @@ public class CocheServiceTest {
     @Autowired
     private CocheService cocheService;
 
-    @Autowired
-    private CocheRepository cocheRepository;
-
     @Test
     void testCreate() {
 
@@ -30,9 +27,9 @@ public class CocheServiceTest {
         coche.setMatricula("2234HBH");
         coche.setAnio(2022);
 
-        long esperado = 1L;
-
         cocheService.create(coche);
+
+        long esperado = coche.getId();
 
         assertTrue(esperado > 0);
 
@@ -49,15 +46,13 @@ public class CocheServiceTest {
 
         Coche cocheGuardado = cocheService.create(coche);
 
-        assertTrue(cocheGuardado!=null);
-        
+        assertTrue(cocheGuardado != null);
+
         cocheService.delete(cocheGuardado.getId());
 
         Optional<Coche> eliminado = cocheService.get(cocheGuardado.getId());
 
         assertTrue(eliminado.isEmpty());
-
-      
 
     }
 

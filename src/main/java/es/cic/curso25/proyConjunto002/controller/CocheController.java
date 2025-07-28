@@ -50,6 +50,11 @@ public class CocheController {
     @PostMapping
     public Coche create(@RequestBody Coche coche) {
 
+        if (coche.getId() != null) {
+            throw new ModificacionSecurityException("No puedes pasar un id distinto de 0");
+
+        }
+
         LOGGER.info("Endpoint POST /api/vehiculo/coche para guardar un coche enviado en el body");
         cocheService.create(coche);
 
@@ -66,8 +71,13 @@ public class CocheController {
         return id;
     }
 
-    @PutMapping()
+    @PutMapping
     public Coche update(@RequestBody Coche coche) {
+
+
+         if (coche.getId() == null) {
+            throw new CreacionSecurityException("El id no puede ser nulo al actualizar");
+        }
 
         LOGGER.info("Actualizando el coche");
         coche = cocheService.update(coche);

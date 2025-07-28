@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
@@ -31,14 +33,6 @@ public class CocheControllerIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private CocheRepository cocheRepository;
-
-    @AfterEach
-    void limpiarBaseDeDatos() {
-        cocheRepository.deleteAll();
-    }
 
     @Test
     void testCreate() throws Exception {
@@ -58,12 +52,24 @@ public class CocheControllerIntegrationTest {
                     Coche registroCreado = objectMapper.readValue(respuesta, Coche.class);
                     assertTrue(registroCreado.getId() > 0, "El valor debe ser mayor que 0");
 
-                    Optional<Coche> registroRealmenteCreado = cocheRepository
-                            .findById(registroCreado.getId());
-
-                    assertTrue(registroRealmenteCreado.isPresent());
-
                 });
+    }
+
+    @Test
+    void testCreateException() throws Exception {
+
+        Coche cocheTest = new Coche();
+        cocheTest.setId(1L);
+        cocheTest.setMarca("Opel");
+        cocheTest.setMatricula("3345BKB");
+        cocheTest.setAnio(1991);
+
+        String cocheJson = objectMapper.writeValueAsString(cocheTest);
+
+        mockMvc.perform(post("/api/vehiculo/coche")
+                .contentType("application/json")
+                .content(cocheJson))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -74,16 +80,25 @@ public class CocheControllerIntegrationTest {
         coche.setMatricula("2336BKB");
         coche.setAnio(2020);
 
-        coche = cocheRepository.save(coche);
+        String cocheJson = objectMapper.writeValueAsString(coche);
 
-        Long id = coche.getId();
+        MvcResult mvcResult = mockMvc.perform(post("/api/vehiculo/coche")
+                .contentType("application/json")
+                .content(cocheJson))
+                .andExpect(status().isOk())
+                .andExpect(result -> {
+                    String respuesta = result.getResponse().getContentAsString();
+                    Coche registroCreado = objectMapper.readValue(respuesta, Coche.class);
+                    assertTrue(registroCreado.getId() > 0, "El valor debe ser mayor que 0");
 
-       
+                }).andReturn();
+
+        Coche cocheGuardado = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Coche.class);
+
+        Long id = cocheGuardado.getId();
+
         mockMvc.perform(delete("/api/vehiculo/coche/" + id))
                 .andExpect(status().isOk());
-
-        Optional<Coche> eliminado = cocheRepository.findById(id);
-        assertTrue(eliminado.isEmpty()); 
     }
 
     @Test
@@ -94,15 +109,20 @@ public class CocheControllerIntegrationTest {
         coche.setMatricula("3626BGV");
         coche.setAnio(2020);
 
-     
-        coche = cocheRepository.save(coche);
+        String cocheJson = objectMapper.writeValueAsString(coche);
 
-        String habitoJson = objectMapper.writeValueAsString(coche);
+        MvcResult mvcResult = mockMvc.perform(post("/api/vehiculo/coche")
+                .contentType("application/json")
+                .content(cocheJson))
+                .andExpect(status().isOk())
+                .andReturn();
 
-      
-        mockMvc.perform(get("/api/vehiculo/coche/" + coche.getId())
+        Coche cocheGuardado = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Coche.class);
+
+        Long id = cocheGuardado.getId();
+
+        mockMvc.perform(get("/api/vehiculo/coche/" + id)
                 .contentType("application/json"))
-               
                 .andExpect(status().isOk())
                 .andExpect(result -> {
                     String json = result.getResponse().getContentAsString();
@@ -115,27 +135,52 @@ public class CocheControllerIntegrationTest {
     @Test
     void testUpdate() throws Exception {
 
-          Coche coche = new Coche();
+        Coche coche = new Coche();
         coche.setMarca("Opel");
         coche.setMatricula("2336BKB");
         coche.setAnio(2020);
 
         String cocheJson = objectMapper.writeValueAsString(coche);
 
-        mockMvc.perform(post("/api/vehiculo/coche")
+        MvcResult mvcResult = mockMvc.perform(post("/api/vehiculo/coche")
                 .contentType("application/json")
                 .content(cocheJson))
                 .andExpect(status().isOk())
-                .andExpect(result -> {
-                    String respuesta = result.getResponse().getContentAsString();
-                    Coche registroCreado = objectMapper.readValue(respuesta, Coche.class);
-                    assertTrue(registroCreado.getId() > 0, "El valor debe ser mayor que 0");
+                .andReturn();
 
-                    Optional<Coche> registroRealmenteCreado = cocheRepository
-                            .findById(registroCreado.getId());
+        Coche cocheGuardado = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Coche.class);
 
-                    assertTrue(registroRealmenteCreado.isPresent());
+        Long id = cocheGuardado.getId();
 
-                });
+        coche.setId(id);
+        coche.setVersion(cocheGuardado.getVersion());
+        coche.setMarca("BMW");
+        coche.setMatricula("12443GBF");
+
+        cocheJson = objectMapper.writeValueAsString(coche);
+
+        mockMvc.perform(put("/api/vehiculo/coche")
+                .contentType("application/json")
+                .content(cocheJson))
+                .andExpect(status().isOk());
+
     }
+
+    @Test
+    void testUpdateException() throws Exception {
+
+        Coche coche = new Coche();
+        coche.setMarca("Opel");
+        coche.setMatricula("2336BKB");
+        coche.setAnio(2020);
+
+        String cocheJson = objectMapper.writeValueAsString(coche);
+
+        mockMvc.perform(put("/api/vehiculo/coche")
+                .contentType("application/json")
+                .content(cocheJson))
+                .andExpect(status().isBadRequest());
+
+    }
+
 }

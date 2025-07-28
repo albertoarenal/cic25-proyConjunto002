@@ -54,6 +54,8 @@ public class BacaController {
 
         LOGGER.info("Creo una baca");
 
+        bacaService.create(baca);
+
         return baca;
     }
 

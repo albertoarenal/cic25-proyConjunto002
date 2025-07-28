@@ -1,5 +1,7 @@
 package es.cic.curso25.proyConjunto002.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,9 +24,17 @@ public class Baca {
     @Version
     private Long version;
     
+    @JsonIgnore
     @OneToOne(mappedBy = "baca", cascade = CascadeType.REMOVE)
     private Coche coche;
 
+
+    public Long getVersion() {
+        return version;
+    }
+    public void setVersion(Long version) {
+        this.version = version;
+    }
     public Long getId() {
         return id;
     }

@@ -17,13 +17,13 @@ public class Coche {
     private Long id;
 
     @Version
-    private long version;
+    private Long version;
 
     private String marca;
     private String matricula;
     private int anio;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch =  FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch =  FetchType.EAGER)
     private Baca baca;
 
  
@@ -40,11 +40,18 @@ public class Coche {
     public void setId(Long id) {
         this.id = id;
     }
-    public long getVersion() {
+    
+    public Long getVersion() {
         return version;
     }
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
+    }
+    public Baca getBaca() {
+        return baca;
+    }
+    public void setBaca(Baca baca) {
+        this.baca = baca;
     }
     public String getMarca() {
         return marca;
