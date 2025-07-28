@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import es.cic.curso25.proyConjunto002.model.Coche;
-import es.cic.curso25.proyConjunto002.repository.CocheRepository;
 
 @SpringBootTest
 public class CocheServiceTest {
@@ -97,23 +96,24 @@ public class CocheServiceTest {
         assertTrue(coches.size() > 1);
 
     }
+
     @Test
-void testUpdateCoche() {
-   
-    Coche coche = new Coche();
-    coche.setMarca("Opel");
-    coche.setMatricula("2234HBH");
-    coche.setAnio(2022);
+    void testUpdateCoche() {
 
-    Coche cocheGuardado = cocheService.create(coche);
+        Coche coche = new Coche();
+        coche.setMarca("Opel");
+        coche.setMatricula("2234HBH");
+        coche.setAnio(2022);
 
-    cocheGuardado.setMarca("Renault");
-    cocheGuardado.setAnio(2023);
-    
-    Coche cocheActualizado = cocheService.update(cocheGuardado);
-    assertEquals("Renault", cocheActualizado.getMarca());
-    assertEquals(2023, cocheActualizado.getAnio());
-    assertEquals(cocheGuardado.getId(), cocheActualizado.getId());
-}
+        Coche cocheGuardado = cocheService.create(coche);
+
+        cocheGuardado.setMarca("Renault");
+        cocheGuardado.setAnio(2023);
+
+        Coche cocheActualizado = cocheService.update(cocheGuardado);
+        assertEquals("Renault", cocheActualizado.getMarca());
+        assertEquals(2023, cocheActualizado.getAnio());
+        assertEquals(cocheGuardado.getId(), cocheActualizado.getId());
+    }
 
 }

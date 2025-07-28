@@ -39,7 +39,7 @@ public class BarcoServiceIntegrationTest {
         barco.setCapacidad(455);
         barcoService.create(barco);
         assertEquals("Crucero", barcoService.getAll().get(0).getTipoBarco());
-        
+
     }
 
     @Test
@@ -71,7 +71,6 @@ public class BarcoServiceIntegrationTest {
 
     }
 
-
     @Test
     void testUpdate() {
         Barco barco = new Barco();
@@ -90,25 +89,21 @@ public class BarcoServiceIntegrationTest {
 
     }
 
-
-
     @Test
     void testDelete() {
         Barco barco = new Barco();
         barco.setTipoBarco("Crucero");
         barco.setAnio(1989);
         barco.setMaterial("Fibra de carbono");
-        
+
         Barco barcoCreado = barcoService.create(barco);
         assertTrue(barcoCreado != null);
 
         barcoService.delete(barcoCreado.getId());
-        
+
         Optional<Barco> barcoEliminado = barcoService.get(barcoCreado.getId());
         assertTrue(barcoEliminado.isEmpty());
 
-
     }
-
 
 }

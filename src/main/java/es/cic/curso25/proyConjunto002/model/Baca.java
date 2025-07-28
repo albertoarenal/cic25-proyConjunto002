@@ -28,7 +28,7 @@ public class Baca {
     @OneToOne(mappedBy = "baca", cascade = CascadeType.REMOVE)
     private Coche coche;
 
-
+    
     public Long getVersion() {
         return version;
     }
@@ -85,6 +85,12 @@ public class Baca {
     @Override
     public String toString() {
         return "Baca [id=" + id + ", ancho=" + ancho + ", largo=" + largo + ", peso=" + peso + "]";
+    }
+    public Coche getCoche() {
+        return coche;
+    }
+    public void setCoche(Coche coche) {
+        this.coche = coche;
     }
 
 }
