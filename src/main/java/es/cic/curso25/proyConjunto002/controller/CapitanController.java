@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.cic.curso25.proyConjunto002.model.Barco;
 import es.cic.curso25.proyConjunto002.model.Capitan;
+import es.cic.curso25.proyConjunto002.service.BarcoService;
 import es.cic.curso25.proyConjunto002.service.CapitanService;
 
 @RestController
-@RequestMapping("/api/vehiculo/capitan")
+@RequestMapping("/api/capitan")
 public class CapitanController {
 
     //Logger
@@ -27,6 +29,9 @@ public class CapitanController {
 
     @Autowired
     private CapitanService capitanService;
+
+    @Autowired
+    private BarcoService barcoService;
 
     //Read
     @GetMapping
@@ -49,6 +54,14 @@ public class CapitanController {
         Capitan capitanNuevo = capitanService.create(capitan);
 
         return capitanNuevo;
+    }
+
+    //Asignación del capitán al barco
+    @PostMapping("/asignacion")
+    public Barco create(@RequestBody Barco barco){
+        Barco barcoCreado = barcoService.create(barco);
+
+        return barcoCreado;
     }
 
     //Update
