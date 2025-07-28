@@ -1,7 +1,11 @@
 package es.cic.curso25.proyConjunto002.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,8 +36,11 @@ public class Capitan {
     private String numeroDeLicencia; //El número de licencia contiene 8 digitos y es único
     
     //Relación One to One con la entidad Barco
-    @OneToOne
-    @JoinColumn(name = "barco_id") // Nombre de la columna FK en la tabla detalles_barco
+    //Capitán es el no propietario de la relación con Barco
+    //@JsonIgnore para Jackson
+
+    @JsonIgnore 
+    @OneToOne(mappedBy = "capitan", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Barco barco; 
 
     //Getters y Setters

@@ -1,11 +1,11 @@
 package es.cic.curso25.proyConjunto002.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
@@ -32,7 +32,10 @@ public class Barco {
     private int capacidad;
 
     //Relación One to One con entidad Capitán
-    @OneToOne(mappedBy = "barco", cascade = CascadeType.PERSIST)
+    //Barco es el lado propietario de la relación con Capitán
+
+    @OneToOne
+    @JoinColumn(name = "capitan_id") // Nombre de la Foreign Key
     private Capitan capitan;
 
     //Constructores
